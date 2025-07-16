@@ -41,6 +41,10 @@ function fetchPoems() {
                 throw new Error('网络请求失败: ' + response.statusText);
             }
             return response.json();
+        })
+        .catch(error => {
+            console.error('获取诗歌数据失败:', error);
+            throw error;
         });
 }
 
