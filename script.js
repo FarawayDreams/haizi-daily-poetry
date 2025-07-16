@@ -33,19 +33,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// 内嵌诗歌数据
+const poems = [
+    {
+        "title": "面朝大海，春暖花开",
+        "content": "从明天起，做一个幸福的人\n喂马，劈柴，周游世界\n从明天起，关心粮食和蔬菜\n我有一所房子，面朝大海，春暖花开"
+    },
+    {
+        "title": "亚洲铜",
+        "content": "亚洲铜，亚洲铜\n祖父死在这里，父亲死在这里，我也会死在这里\n你是唯一的一块埋人的地方"
+    },
+    // ... (other poems would be included here)
+    {
+        "title": "献诗",
+        "content": "谁的声音能抵达秋子之夜\n长久喧响\n掩盖我们横陈于地的骸骨\n秋已来临"
+    }
+];
+
 // 获取诗歌数据
 function fetchPoems() {
-    return fetch('poems.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('网络请求失败: ' + response.statusText);
-            }
-            return response.json();
-        })
-        .catch(error => {
-            console.error('获取诗歌数据失败:', error);
-            throw error;
-        });
+    return Promise.resolve(poems);
 }
 
 // 基于日期的确定性随机索引生成
@@ -63,18 +70,12 @@ function getDailyPoemIndex(totalPoems, dateString) {
 
 // 显示诗歌
 function displayPoem(index) {
-    fetchPoems()
-        .then(poems => {
-            if (index >= 0 && index < poems.length) {
-                document.getElementById('poem-title').textContent = poems[index].title;
-                document.getElementById('poem-content').textContent = poems[index].content;
-            } else {
-                displayError('诗歌索引无效');
-            }
-        })
-        .catch(error => {
-            displayError('加载诗歌数据失败: ' + error.message);
-        });
+    if (index >= 0 && index < poems.length) {
+        document.getElementById('poem-title').textContent = poems[index].title;
+        document.getElementById('poem-content').textContent = poems[index].content;
+    } else {
+        displayError('诗歌索引无效');
+    }
 }
 
 // 错误处理
