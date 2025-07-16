@@ -1,5 +1,7 @@
 // 海子诗歌每日展示系统
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed');
+    // 检查浏览器是否支持localStorage
     // 检查浏览器是否支持localStorage
     if (typeof(Storage) === 'undefined') {
         displayError('您的浏览器不支持本地存储，无法使用每日更新功能。');
