@@ -1,0 +1,111 @@
+/* 重置与基础设置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 优雅的配色方案 */
+:root {
+    --paper: #f8f5f2;
+    --ink: #3a322d;
+    --accent: #8a6d3b;
+    --highlight: #d7ccc8;
+}
+
+body {
+    font-family: 'Noto Serif SC', serif;
+    background-color: var(--paper);
+    color: var(--ink);
+    line-height: 1.8;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-image: radial-gradient(#e0d7d1 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 50px 30px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--highlight));
+}
+
+#poem-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.4rem;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 2px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+#poem-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background: var(--highlight);
+}
+
+#poem-content {
+    font-size: 1.5rem;
+    white-space: pre-line;
+    text-align: center;
+    line-height: 2.4;
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 20px;
+    }
+    
+    #poem-title {
+        font-size: 2rem;
+    }
+    
+    #poem-content {
+        font-size: 1.3rem;
+        line-height: 2.2;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+    
+    #poem-title {
+        font-size: 1.8rem;
+    }
+    
+    #poem-content {
+        font-size: 1.2rem;
+    }
+}
