@@ -23,8 +23,6 @@
     <meta name="twitter:image" content="https://farawaydreams.github.io/haizi-daily-poetry/assets/logo/logo-social.png">
     
     <!-- Performance optimizations -->
-    <link rel="preload" href="assets/logo/logo-main.svg" as="image" type="image/svg+xml">
-    <link rel="preload" href="assets/logo/logo-dark.svg" as="image" type="image/svg+xml" media="(prefers-color-scheme: dark)">
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     
@@ -106,94 +104,7 @@
             background: linear-gradient(90deg, var(--accent), var(--highlight));
         }
 
-        /* Logo样式 */
-        .website-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-top: 20px;
-        }
-
-        .main-logo {
-            width: 200px;
-            height: 120px;
-            max-width: 100%;
-            height: auto;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
-            /* 可访问性优化 */
-            border-radius: 4px;
-            outline: none;
-        }
-
-        .main-logo:hover,
-        .main-logo:focus {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
-
-        /* 键盘导航焦点指示器 */
-        .main-logo:focus-visible {
-            outline: 3px solid var(--accent);
-            outline-offset: 4px;
-        }
-
-        /* 深色主题logo切换 */
-        @media (prefers-color-scheme: dark) {
-            .main-logo {
-                content: url('assets/logo/logo-dark.svg');
-            }
-        }
-
-        /* 高对比度模式支持 */
-        @media (prefers-contrast: high) {
-            .main-logo {
-                filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3)) contrast(1.2);
-            }
-        }
-
-        /* 减少动画偏好支持 */
-        @media (prefers-reduced-motion: reduce) {
-            .main-logo {
-                transition: none;
-            }
-            
-            .main-logo:hover,
-            .main-logo:focus {
-                transform: none;
-            }
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .website-header {
-                margin-bottom: 20px;
-                padding-top: 15px;
-            }
-            
-            .main-logo {
-                width: 160px;
-                height: 96px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .website-header {
-                margin-bottom: 15px;
-                padding-top: 10px;
-            }
-            
-            .main-logo {
-                width: 120px;
-                height: 72px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .main-logo {
-                width: 100px;
-                height: 60px;
-            }
-        }
+        /* Logo removed - only favicon remains */
 
         #poem-title {
             text-align: center;
@@ -302,19 +213,7 @@
 </head>
 <body>
     <div class="container">
-        <header class="website-header" role="banner">
-            <img src="assets/logo/logo-main.svg" 
-                 alt="海子诗歌网站标志：太阳、麦穗与书页组合，象征诗人对光明、大地和文学的热爱" 
-                 class="main-logo" 
-                 id="main-logo"
-                 loading="eager"
-                 decoding="async"
-                 fetchpriority="high"
-                 aria-label="海子诗歌网站首页"
-                 role="img"
-                 tabindex="0"
-                 title="海子诗歌网站 - 每日一首诗">
-        </header>
+        <!-- Header removed - logo only appears as favicon -->
         <h1 id="poem-title"></h1>
         <div id="poem-content"></div>
         <div class="scroll-indicator">继续阅读</div>
