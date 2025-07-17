@@ -86,12 +86,14 @@
             font-weight: 400;
             max-width: 600px;
             margin: 0 auto;
-            max-height: 60vh;
-            overflow-y: auto;
+            /* 动态高度调整 - 移除固定max-height限制 */
+            min-height: 200px;
+            max-height: calc(100vh - 300px); /* 确保不超出屏幕，预留标题和边距空间 */
             padding: 20px;
             border-radius: 8px;
             position: relative;
-            /* 隐藏滚动条但保持滚动功能 */
+            /* 优先完整显示内容，必要时才滚动 */
+            overflow-y: auto;
             scrollbar-width: none; /* Firefox */
             -ms-overflow-style: none; /* IE/Edge */
             scroll-behavior: smooth;
@@ -120,6 +122,9 @@
             #poem-content {
                 font-size: 1.3rem;
                 line-height: 2.2;
+                /* 平板设备动态高度调整 */
+                max-height: calc(100vh - 250px);
+                padding: 15px;
             }
         }
 
@@ -130,10 +135,26 @@
             
             #poem-title {
                 font-size: 1.8rem;
+                margin-bottom: 30px;
             }
             
             #poem-content {
                 font-size: 1.2rem;
+                line-height: 2.0;
+                /* 手机设备动态高度调整 */
+                max-height: calc(100vh - 200px);
+                min-height: 150px;
+                padding: 10px;
+            }
+        }
+
+        /* 超小屏设备优化 */
+        @media (max-width: 360px) {
+            #poem-content {
+                font-size: 1.1rem;
+                line-height: 1.9;
+                max-height: calc(100vh - 180px);
+                min-height: 120px;
             }
         }
     </style>

@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log(`[DEBUG] 当前日期: ${today}, 上次展示日期: ${lastDisplayDate}, 存储的诗歌索引: ${storedPoemIndex}`);
     
+    // 首先应用每日配色主题
+    applyDailyTheme(today);
+    
     // 检查是否需要更新诗歌
     if (lastDisplayDate === today && storedPoemIndex !== null) {
         console.log(`[DEBUG] 同一天，显示存储的诗歌 #${storedPoemIndex}`);
@@ -86,21 +89,66 @@ function displayPoem(index) {
 }
 
 function setupScrolling(contentElement) {
-    // 等待内容渲染完成后检查滚动状态
+    // 等待内容渲染完成后进行动态高度调整
     setTimeout(() => {
-        checkScrollable(contentElement);
+        adjustDynamicHeight(contentElement);
     }, 100);
 }
 
-function checkScrollable(contentElement) {
-    const isScrollable = contentElement.scrollHeight > contentElement.clientHeight;
+function adjustDynamicHeight(contentElement) {
+    // 临时移除高度限制来测量内容实际需要的高度
+    const originalMaxHeight = contentElement.style.maxHeight;
+    contentElement.style.maxHeight = 'none';
+    contentElement.style.height = 'auto';
     
-    console.log(`[DEBUG] 内容高度: ${contentElement.scrollHeight}px, 容器高度: ${contentElement.clientHeight}px, 可滚动: ${isScrollable}`);
+    // 测量内容的自然高度
+    const naturalHeight = contentElement.scrollHeight;
+    const viewportHeight = window.innerHeight;
+    // 更积极的空间利用 - 减少预留空间，增加内容显示区域
+    const maxAllowedHeight = viewportHeight - 200; // 减少预留空间从300px到200px
     
-    if (isScrollable) {
-        console.log('[DEBUG] 诗歌内容可滚动');
+    console.log(`[DEBUG] 诗歌自然高度: ${naturalHeight}px, 视窗高度: ${viewportHeight}px, 最大允许高度: ${maxAllowedHeight}px`);
+    
+    // 优化的高度计算策略 - 更倾向于完整显示
+    let optimalHeight;
+    if (naturalHeight <= maxAllowedHeight * 0.7) {
+        // 短诗和中短诗：完全使用自然高度
+        optimalHeight = naturalHeight;
+        console.log('[DEBUG] 短诗/中短诗 - 使用自然高度完整显示');
+    } else if (naturalHeight <= maxAllowedHeight * 0.9) {
+        // 中长诗歌：优先完整显示，使用更大比例的屏幕空间
+        optimalHeight = Math.min(naturalHeight, maxAllowedHeight * 0.85);
+        console.log('[DEBUG] 中长诗歌 - 使用85%屏幕高度，尽量完整显示');
+    } else if (naturalHeight <= maxAllowedHeight) {
+        // 接近屏幕高度的诗歌：完整显示
+        optimalHeight = naturalHeight;
+        console.log('[DEBUG] 接近屏幕高度诗歌 - 完整显示');
     } else {
-        console.log('[DEBUG] 诗歌内容无需滚动');
+        // 超长诗歌：使用最大可用空间
+        optimalHeight = maxAllowedHeight;
+        console.log('[DEBUG] 超长诗歌 - 使用最大可用空间');
+    }
+    
+    // 确保最小高度
+    optimalHeight = Math.max(optimalHeight, 200);
+    
+    // 应用计算出的最优高度
+    contentElement.style.height = `${optimalHeight}px`;
+    contentElement.style.maxHeight = `${optimalHeight}px`;
+    
+    // 检查是否仍需滚动
+    const needsScroll = naturalHeight > optimalHeight;
+    const scrollPercentage = needsScroll ? ((naturalHeight - optimalHeight) / naturalHeight * 100).toFixed(1) : 0;
+    
+    console.log(`[DEBUG] 设置高度: ${optimalHeight}px, 是否需要滚动: ${needsScroll}, 隐藏内容: ${scrollPercentage}%`);
+    
+    if (!needsScroll) {
+        console.log('[DEBUG] ✅ 诗歌完整显示，无需滚动');
+        // 隐藏滚动条因为不需要滚动
+        contentElement.style.overflowY = 'hidden';
+    } else {
+        console.log(`[DEBUG] ⚠️ 诗歌需要滚动浏览，${scrollPercentage}%内容需要滚动查看`);
+        contentElement.style.overflowY = 'auto';
     }
 }
 
@@ -207,3 +255,125 @@ const poems = [
         content: "用我们横陈于地上的骸骨\n在沙滩上写下：青春。然后背起衰老的父亲\n时日漫长 方向中断\n动物般的恐惧充塞我们的诗歌\n\n谁的声音能抵达秋之子夜 长久喧响\n掩盖我们横陈于地上的骸骨——\n秋已来临\n没有丝毫的宽恕和温情：秋已来临"
     }
 ];
+
+// 每日配色主题系统
+const colorSchemes = [
+    {
+        name: '暖阳晨光',
+        description: '温暖的晨光，田园诗意',
+        colors: {
+            primaryBg: '#faf8f3',
+            textColor: '#3d3026',
+            accentColor: '#d4a574',
+            highlightColor: '#e8b86d',
+            borderColor: '#e6ddd1'
+        }
+    },
+    {
+        name: '静谧蓝灰',
+        description: '宁静的黄昏天空，深邃思考',
+        colors: {
+            primaryBg: '#f8f9fa',
+            textColor: '#2c3e50',
+            accentColor: '#7f8c8d',
+            highlightColor: '#95a5a6',
+            borderColor: '#ecf0f1'
+        }
+    },
+    {
+        name: '柔和粉调',
+        description: '春天的花瓣，浪漫温柔',
+        colors: {
+            primaryBg: '#fdf9f7',
+            textColor: '#4a3c3a',
+            accentColor: '#c8a2a0',
+            highlightColor: '#deb5b3',
+            borderColor: '#f0e8e6'
+        }
+    },
+    {
+        name: '翠绿清韵',
+        description: '新绿的嫩叶，自然清新',
+        colors: {
+            primaryBg: '#f8fdf8',
+            textColor: '#2d4a2b',
+            accentColor: '#7c9885',
+            highlightColor: '#95b19a',
+            borderColor: '#e8f5e8'
+        }
+    },
+    {
+        name: '古典墨韵',
+        description: '传统墨色书法，古典美感',
+        colors: {
+            primaryBg: '#fefefd',
+            textColor: '#2b2b2b',
+            accentColor: '#666666',
+            highlightColor: '#8a8a8a',
+            borderColor: '#f0f0f0'
+        }
+    },
+    {
+        name: '暮色紫调',
+        description: '黄昏的紫色天空，神秘诗意',
+        colors: {
+            primaryBg: '#faf9fc',
+            textColor: '#3c2f4a',
+            accentColor: '#8b7ca6',
+            highlightColor: '#a395b7',
+            borderColor: '#f0ebf5'
+        }
+    },
+    {
+        name: '秋日暖褐',
+        description: '秋天的暖色调，成熟深邃',
+        colors: {
+            primaryBg: '#fdf8f5',
+            textColor: '#3e2723',
+            accentColor: '#a1785c',
+            highlightColor: '#bc9077',
+            borderColor: '#f3e8e0'
+        }
+    }
+];
+
+function applyDailyTheme(dateString) {
+    // 计算基于日期的主题索引
+    const themeIndex = calculateDailyThemeIndex(dateString);
+    const selectedTheme = colorSchemes[themeIndex];
+    
+    console.log(`[DEBUG] 应用每日主题: ${selectedTheme.name} (索引: ${themeIndex})`);
+    console.log(`[DEBUG] 主题描述: ${selectedTheme.description}`);
+    
+    // 应用CSS自定义属性
+    const root = document.documentElement;
+    root.style.setProperty('--paper', selectedTheme.colors.primaryBg);
+    root.style.setProperty('--ink', selectedTheme.colors.textColor);
+    root.style.setProperty('--accent', selectedTheme.colors.accentColor);
+    root.style.setProperty('--highlight', selectedTheme.colors.highlightColor);
+    
+    // 更新背景点状图案颜色
+    updateBackgroundPattern(selectedTheme.colors.borderColor);
+    
+    console.log(`[DEBUG] ✅ 主题 "${selectedTheme.name}" 应用成功`);
+}
+
+function calculateDailyThemeIndex(dateString) {
+    // 计算从年初开始的天数
+    const date = new Date(dateString);
+    const startOfYear = new Date(date.getFullYear(), 0, 0);
+    const dayOfYear = Math.floor((date - startOfYear) / (24 * 60 * 60 * 1000));
+    
+    // 使用7天周期轮换主题
+    const themeIndex = dayOfYear % colorSchemes.length;
+    
+    console.log(`[DEBUG] 日期: ${dateString}, 年内第${dayOfYear}天, 主题索引: ${themeIndex}`);
+    
+    return themeIndex;
+}
+
+function updateBackgroundPattern(borderColor) {
+    // 动态更新背景点状图案的颜色
+    const body = document.body;
+    body.style.backgroundImage = `radial-gradient(${borderColor} 1px, transparent 1px)`;
+}
