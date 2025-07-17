@@ -86,54 +86,22 @@ function displayPoem(index) {
 }
 
 function setupScrolling(contentElement) {
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    
-    // 等待内容渲染完成后检查是否需要滚动
+    // 等待内容渲染完成后检查滚动状态
     setTimeout(() => {
-        checkScrollable(contentElement, scrollIndicator);
+        checkScrollable(contentElement);
     }, 100);
-    
-    // 添加滚动事件监听器
-    contentElement.addEventListener('scroll', () => {
-        handleScroll(contentElement, scrollIndicator);
-    });
 }
 
-function checkScrollable(contentElement, scrollIndicator) {
+function checkScrollable(contentElement) {
     const isScrollable = contentElement.scrollHeight > contentElement.clientHeight;
     
     console.log(`[DEBUG] 内容高度: ${contentElement.scrollHeight}px, 容器高度: ${contentElement.clientHeight}px, 可滚动: ${isScrollable}`);
     
     if (isScrollable) {
-        contentElement.classList.add('scrollable');
-        contentElement.classList.add('has-more');
-        scrollIndicator.classList.add('visible');
-        console.log('[DEBUG] 诗歌内容可滚动，显示滚动指示器');
+        console.log('[DEBUG] 诗歌内容可滚动');
     } else {
-        contentElement.classList.remove('scrollable', 'has-more');
-        scrollIndicator.classList.remove('visible');
         console.log('[DEBUG] 诗歌内容无需滚动');
     }
-}
-
-function handleScroll(contentElement, scrollIndicator) {
-    const scrollTop = contentElement.scrollTop;
-    const scrollHeight = contentElement.scrollHeight;
-    const clientHeight = contentElement.clientHeight;
-    
-    // 计算滚动进度
-    const scrollProgress = scrollTop / (scrollHeight - clientHeight);
-    
-    // 当接近底部时隐藏滚动指示器
-    if (scrollProgress > 0.8) {
-        contentElement.classList.remove('has-more');
-        scrollIndicator.classList.remove('visible');
-    } else {
-        contentElement.classList.add('has-more');
-        scrollIndicator.classList.add('visible');
-    }
-    
-    console.log(`[DEBUG] 滚动进度: ${Math.round(scrollProgress * 100)}%`);
 }
 
 function displayError(message) {
