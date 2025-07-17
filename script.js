@@ -9,8 +9,16 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // 获取当前日期（YYYY-MM-DD格式）
-    const today = new Date().toISOString().split('T')[0];
+    // 获取当前日期（YYYY-MM-DD格式），以凌晨4点为新一天的开始
+    const now = new Date();
+    const updateHour = 4; // 凌晨4点更新
+    
+    // 如果当前时间早于凌晨4点，使用前一天的日期
+    if (now.getHours() < updateHour) {
+        now.setDate(now.getDate() - 1);
+    }
+    
+    const today = now.toISOString().split('T')[0];
     const lastDisplayDate = localStorage.getItem('lastDisplayDate');
     const storedPoemIndex = localStorage.getItem('poemIndex');
     
