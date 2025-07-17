@@ -78,7 +78,62 @@ function displayPoem(index) {
     
     titleElement.textContent = poem.title;
     contentElement.innerHTML = poem.content.replace(/\n/g, '<br>');
+    
+    // 设置滚动功能
+    setupScrolling(contentElement);
+    
     console.log('[DEBUG] 诗歌显示完成');
+}
+
+function setupScrolling(contentElement) {
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    
+    // 等待内容渲染完成后检查是否需要滚动
+    setTimeout(() => {
+        checkScrollable(contentElement, scrollIndicator);
+    }, 100);
+    
+    // 添加滚动事件监听器
+    contentElement.addEventListener('scroll', () => {
+        handleScroll(contentElement, scrollIndicator);
+    });
+}
+
+function checkScrollable(contentElement, scrollIndicator) {
+    const isScrollable = contentElement.scrollHeight > contentElement.clientHeight;
+    
+    console.log(`[DEBUG] 内容高度: ${contentElement.scrollHeight}px, 容器高度: ${contentElement.clientHeight}px, 可滚动: ${isScrollable}`);
+    
+    if (isScrollable) {
+        contentElement.classList.add('scrollable');
+        contentElement.classList.add('has-more');
+        scrollIndicator.classList.add('visible');
+        console.log('[DEBUG] 诗歌内容可滚动，显示滚动指示器');
+    } else {
+        contentElement.classList.remove('scrollable', 'has-more');
+        scrollIndicator.classList.remove('visible');
+        console.log('[DEBUG] 诗歌内容无需滚动');
+    }
+}
+
+function handleScroll(contentElement, scrollIndicator) {
+    const scrollTop = contentElement.scrollTop;
+    const scrollHeight = contentElement.scrollHeight;
+    const clientHeight = contentElement.clientHeight;
+    
+    // 计算滚动进度
+    const scrollProgress = scrollTop / (scrollHeight - clientHeight);
+    
+    // 当接近底部时隐藏滚动指示器
+    if (scrollProgress > 0.8) {
+        contentElement.classList.remove('has-more');
+        scrollIndicator.classList.remove('visible');
+    } else {
+        contentElement.classList.add('has-more');
+        scrollIndicator.classList.add('visible');
+    }
+    
+    console.log(`[DEBUG] 滚动进度: ${Math.round(scrollProgress * 100)}%`);
 }
 
 function displayError(message) {
@@ -93,7 +148,7 @@ function displayError(message) {
 const poems = [
     {
         title: "面朝大海，春暖花开",
-        content: "从明天起，做一个幸福的人\n喂马、劈柴，周游世界\n从明天起，关心粮食和蔬菜\n我有一所房子，面朝大海，春暖花开\n\n从明天起，和每一个亲人通信\n告诉他们我的幸福\n那幸福的闪电告诉我的\n我将告诉每一个人\n\n给每一条河每一座山取一个温暖的名字\n陌生人，我也为你祝福\n愿你有一个灿烂的前程\n愿你有情人终成眷属\n愿你在尘世获得幸福\n我只愿面朝大海，春暖花开"
+        content: "从明天起，做一个幸福的人\n喂马、劈柴，周游世界\n从明天起，关心粮食和蔬菜\n我有一所房子，面朝大海，春暖花开\n\n从明天起，和每一个亲人通信\n告诉他们我的幸福\n那幸福的闪电告诉我的\n我将告诉每一个人\n\n给每一条河每一座山取一个温暖的名字\n陌生人，我也为你祝福\n愿你有一个灿烂的前程\n愿你有情人终成眷属\n愿你在尘世获得幸福\n我也愿面朝大海，春暖花开"
     },
     {
         title: "亚洲铜",
@@ -101,11 +156,11 @@ const poems = [
     },
     {
         title: "祖国（或以梦为马）",
-        content: "我要做远方的忠诚的儿子\n和物质的短暂情人\n和所有以梦为马的诗人一样\n我不得不和烈士和小丑走在同一道路上\n\n万人都要将火熄灭，我一人独将此火高高举起\n此火为大，开花落英于神圣的祖国\n和所有以梦为马的诗人一样\n我藉此火得度一生的茫茫黑夜\n\n此火为大，祖国的语言和乱石投筛\n让我为尘世做一个怀念的姿势\n风吹过来，温暖的风\n用人道主义的温暖光芒\n包容而永恒的人道主义"
+        content: "我要做远方的忠诚的儿子\n和物质的短暂情人\n和所有以梦为马的诗人一样\n我不得不和烈士和小丑走在同一道路上\n\n万人都要将火熄灭 我一人独将此火高高举起\n此火为大 开花落英于神圣的祖国\n和所有以梦为马的诗人一样\n我籍此火得度一生的茫茫黑夜\n\n此火为大 祖国的语言和乱石投筑的梁山城寨\n以梦为马的敦煌——那七月也会寒冷的骨骼\n如白雪的柴和坚硬的条条白雪 横放在众神之山\n和所有以梦为马的诗人一样\n我投入此火 这三者是囚禁我的灯盏吐出光辉\n\n万人都要从我刀口走过 去建筑祖国的语言\n我甘愿一切从头开始\n和所有以梦为马的诗人一样\n我也愿将牢底坐穿\n\n众神创造物中只有我最易朽\n带着不可抗拒的死亡的速度\n只有粮食是我珍爱 我将她紧紧抱住\n抱住她在故乡生儿育女\n和所有以梦为马的诗人一样\n我也愿将自己埋葬在四周高高的山上\n守望平静的家园\n\n面对大河我无限惭愧\n我年华虚度 空有一身疲倦\n和所有以梦为马的诗人一样\n岁月易逝 一滴不剩 水滴中有一匹马儿一命归天\n\n千年后如若我再生于祖国的河岸\n千年后我再次拥有中国的稻田 和周天子的雪山 天马踢踏\n和所有以梦为马的诗人一样\n我选择永恒的事业\n\n我的事业 就是要成为太阳的一生\n他从古到今——'日'——他无比辉煌无比光明\n和所有以梦为马的诗人一样\n最后我被黄昏的众神抬入不朽的太阳\n太阳是我的名字\n太阳是我的一生\n太阳的山顶埋葬 诗歌的尸体——千年王国和我\n骑着五千年凤凰和名字叫'马'的龙——我必将失败\n但诗歌本身以太阳必将胜利"
     },
     {
         title: "春天，十个海子",
-        content: "春天，十个海子全都复活\n在光明的景色中\n嘲笑这一个野蛮而悲伤的海子\n你这么长久地沉睡到底是为了什么？\n\n春天，十个海子低低地怒吼\n围着你和我跳舞、唱歌\n扯乱你的黑头发，骑上你飞奔而去，尘土飞扬\n你被劈开的疼痛在大地弥漫\n\n在春天，野蛮而复仇的海子\n就剩这一个，最后一个\n这是黑夜的儿子，沉浸于冬天，倾心死亡\n不能自拔，热爱着空虚而寒冷的后半夜"
+        content: "春天，十个海子全都复活\n在光明的景色中\n嘲笑这一个野蛮而悲伤的海子\n你这么长久地沉睡到底是为了什么？\n\n春天，十个海子低低地怒吼\n围着你和我跳舞、唱歌\n扯乱你的黑头发，骑上你飞奔而去，尘土飞扬\n你被劈开的疼痛在大地弥漫\n\n在春天，野蛮而复仇的海子\n就剩这一个，最后一个\n这是黑夜的儿子，沉浸于冬天，倾心死亡\n不能自拔，热爱着空虚而寒冷的乡村\n\n那里的谷物高高堆起，遮住了窗子\n它们一半用于一家六口人的嘴，吃和胃\n一半用于农业，他们自己繁殖\n大风从东吹到西，从北刮到南，无视黑夜和黎明\n你所说的曙光究竟是什么意思"
     },
     {
         title: "活在珍贵的人间",
@@ -133,7 +188,7 @@ const poems = [
     },
     {
         title: "日记",
-        content: "姐姐，今夜我在德令哈，夜色笼罩\n姐姐，我今夜只有戈壁\n\n草原尽头我两手空空\n悲痛时握不住一颗泪滴\n\n姐姐，今夜我在德令哈\n这是雨水中一座荒凉的城\n\n除了那些路过的和居住的\n德令哈...今夜\n这是唯一的，最后的，抒情\n这是唯一的，最后的，草原\n我把石头还给石头\n让胜利的胜利\n今夜青稞只属于她自己\n一切都在生长\n今夜我只有美丽的戈壁 空空\n姐姐，今夜我不关心人类，我只想你"
+        content: "姐姐，今夜我在德令哈，夜色笼罩\n姐姐，我今夜只有戈壁\n\n草原尽头我两手空空\n悲痛时握不住一颗泪滴\n\n姐姐，今夜我在德令哈\n这是雨水中一座荒凉的城\n\n除了那些路过的和居住的\n德令哈...今夜\n这是唯一的，最后的，抒情\n这是唯一的，最后的，草原\n我把石头还给石头\n让胜利的胜利\n今夜青稞只属于他自己\n一切都在生长\n今夜我只有美丽的戈壁 空空\n姐姐，今夜我不关心人类，我只想你"
     },
     {
         title: "历史",
@@ -170,5 +225,17 @@ const poems = [
     {
         title: "海水没顶",
         content: "海水没顶我头上的天空\n一半火焰一半海水\n你是我生命的全部秘密\n没有你我就不能呼吸\n\n海水没顶\n海水没顶\n淹没所有的言语和诗歌\n淹没所有的美丽和骄傲\n\n在海水中\n我看见自己\n在海水中\n我看见你"
+    },
+    {
+        title: "八月之杯",
+        content: "八月逝去 山峦清晰\n河水平滑起伏\n此刻才见天空\n天空高过往日\n\n有时我想过\n八月之杯中安坐真正的诗人\n仰视来去不定的云朵\n也许我一辈子也不会将你看清\n一只空杯子 装满了我破碎的诗行\n一只空杯子——可曾听见我的叫喊!\n一只空杯子内的父亲啊\n内心的鞭子将我们绑在一起抽打"
+    },
+    {
+        title: "秋天深了",
+        content: "秋天深了，神的家中鹰在集合\n神的故乡鹰在言语\n秋天深了，王在写诗\n在这个世界上秋天深了\n得到的尚未得到\n该丧失的早已丧失"
+    },
+    {
+        title: "用我们横陈于地上的骸骨",
+        content: "用我们横陈于地上的骸骨\n在沙滩上写下：青春。然后背起衰老的父亲\n时日漫长 方向中断\n动物般的恐惧充塞我们的诗歌\n\n谁的声音能抵达秋之子夜 长久喧响\n掩盖我们横陈于地上的骸骨——\n秋已来临\n没有丝毫的宽恕和温情：秋已来临"
     }
 ];
