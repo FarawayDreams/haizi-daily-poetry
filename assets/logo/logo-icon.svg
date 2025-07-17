@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- 定义渐变 -->
+  <defs>
+    <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="wheatGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DEB887;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#CD853F;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 太阳元素 -->
+  <g id="sun">
+    <!-- 太阳光线 -->
+    <g stroke="#B8860B" stroke-width="1.5" opacity="0.8">
+      <line x1="32" y1="4" x2="32" y2="10" />
+      <line x1="43" y1="7" x2="41" y2="12" />
+      <line x1="53" y1="16" x2="48" y2="21" />
+      <line x1="57" y1="32" x2="51" y2="32" />
+      <line x1="53" y1="48" x2="48" y2="43" />
+      <line x1="43" y1="57" x2="41" y2="52" />
+      <line x1="32" y1="60" x2="32" y2="54" />
+      <line x1="21" y1="57" x2="23" y2="52" />
+      <line x1="11" y1="48" x2="16" y2="43" />
+      <line x1="7" y1="32" x2="13" y2="32" />
+      <line x1="11" y1="16" x2="16" y2="21" />
+      <line x1="21" y1="7" x2="23" y2="12" />
+    </g>
+    <!-- 太阳主体 -->
+    <circle cx="32" cy="32" r="12" fill="url(#sunGradient)" stroke="#B8860B" stroke-width="1"/>
+  </g>
+  
+  <!-- 左侧麦穗 -->
+  <g id="wheat-left" transform="translate(8, 28)">
+    <path d="M0 8 Q2 6 4 8 Q6 10 8 8 Q10 6 12 8 Q10 12 8 14 Q6 16 4 14 Q2 12 0 14 Z" 
+          fill="url(#wheatGradient)" stroke="#CD853F" stroke-width="0.8"/>
+    <g stroke="#CD853F" stroke-width="0.5" fill="none">
+      <path d="M2 9 L3 7"/>
+      <path d="M6 9 L7 7"/>
+      <path d="M10 9 L11 7"/>
+    </g>
+  </g>
+  
+  <!-- 右侧麦穗 -->
+  <g id="wheat-right" transform="translate(44, 28)">
+    <path d="M12 8 Q10 6 8 8 Q6 10 4 8 Q2 6 0 8 Q2 12 4 14 Q6 16 8 14 Q10 12 12 14 Z" 
+          fill="url(#wheatGradient)" stroke="#CD853F" stroke-width="0.8"/>
+    <g stroke="#CD853F" stroke-width="0.5" fill="none">
+      <path d="M10 9 L9 7"/>
+      <path d="M6 9 L5 7"/>
+      <path d="M2 9 L1 7"/>
+    </g>
+  </g>
+</svg>

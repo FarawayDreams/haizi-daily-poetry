@@ -56,6 +56,66 @@
             background: linear-gradient(90deg, var(--accent), var(--highlight));
         }
 
+        /* Logo样式 */
+        .website-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .main-logo {
+            width: 200px;
+            height: 120px;
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
+        }
+
+        .main-logo:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        /* 深色主题logo切换 */
+        @media (prefers-color-scheme: dark) {
+            .main-logo {
+                content: url('assets/logo/logo-dark.svg');
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .website-header {
+                margin-bottom: 20px;
+                padding-top: 15px;
+            }
+            
+            .main-logo {
+                width: 160px;
+                height: 96px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .website-header {
+                margin-bottom: 15px;
+                padding-top: 10px;
+            }
+            
+            .main-logo {
+                width: 120px;
+                height: 72px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .main-logo {
+                width: 100px;
+                height: 60px;
+            }
+        }
+
         #poem-title {
             text-align: center;
             margin-bottom: 40px;
@@ -158,10 +218,14 @@
             }
         }
     </style>
-    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==" type="image/png">
+    <link rel="icon" href="assets/logo/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="256x256" href="assets/logo/logo-256x256.png">
 </head>
 <body>
     <div class="container">
+        <header class="website-header">
+            <img src="assets/logo/logo-main.svg" alt="海子诗歌" class="main-logo" id="main-logo">
+        </header>
         <h1 id="poem-title"></h1>
         <div id="poem-content"></div>
         <div class="scroll-indicator">继续阅读</div>

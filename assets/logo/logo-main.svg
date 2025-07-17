@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="120" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- 定义渐变 -->
+  <defs>
+    <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="wheatGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DEB887;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#CD853F;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="pageGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFF0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5F5DC;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 太阳元素 -->
+  <g id="sun">
+    <!-- 太阳光线 -->
+    <g stroke="#B8860B" stroke-width="2" opacity="0.7">
+      <line x1="100" y1="5" x2="100" y2="15" />
+      <line x1="118" y1="8" x2="115" y2="17" />
+      <line x1="132" y1="18" x2="126" y2="25" />
+      <line x1="140" y1="35" x2="131" y2="39" />
+      <line x1="140" y1="55" x2="131" y2="51" />
+      <line x1="132" y1="72" x2="126" y2="65" />
+      <line x1="118" y1="82" x2="115" y2="73" />
+      <line x1="100" y1="85" x2="100" y2="75" />
+      <line x1="82" y1="82" x2="85" y2="73" />
+      <line x1="68" y1="72" x2="74" y2="65" />
+      <line x1="60" y1="55" x2="69" y2="51" />
+      <line x1="60" y1="35" x2="69" y2="39" />
+      <line x1="68" y1="18" x2="74" y2="25" />
+      <line x1="82" y1="8" x2="85" y2="17" />
+    </g>
+    <!-- 太阳主体 -->
+    <circle cx="100" cy="45" r="20" fill="url(#sunGradient)" stroke="#B8860B" stroke-width="1"/>
+  </g>
+  
+  <!-- 左侧麦穗 -->
+  <g id="wheat-left" transform="translate(20, 40)">
+    <path d="M0 30 Q5 25 10 30 Q15 35 20 30 Q25 25 30 30 Q35 35 40 30 Q35 40 30 45 Q25 50 20 45 Q15 40 10 45 Q5 50 0 45 Z" 
+          fill="url(#wheatGradient)" stroke="#CD853F" stroke-width="1"/>
+    <g stroke="#CD853F" stroke-width="1" fill="none">
+      <path d="M8 32 L12 28"/>
+      <path d="M18 32 L22 28"/>
+      <path d="M28 32 L32 28"/>
+      <path d="M8 42 L12 46"/>
+      <path d="M18 42 L22 46"/>
+      <path d="M28 42 L32 46"/>
+    </g>
+  </g>
+  
+  <!-- 右侧麦穗 -->
+  <g id="wheat-right" transform="translate(140, 40)">
+    <path d="M40 30 Q35 25 30 30 Q25 35 20 30 Q15 25 10 30 Q5 35 0 30 Q5 40 10 45 Q15 50 20 45 Q25 40 30 45 Q35 50 40 45 Z" 
+          fill="url(#wheatGradient)" stroke="#CD853F" stroke-width="1"/>
+    <g stroke="#CD853F" stroke-width="1" fill="none">
+      <path d="M32 32 L28 28"/>
+      <path d="M22 32 L18 28"/>
+      <path d="M12 32 L8 28"/>
+      <path d="M32 42 L28 46"/>
+      <path d="M22 42 L18 46"/>
+      <path d="M12 42 L8 46"/>
+    </g>
+  </g>
+  
+  <!-- 书页元素 -->
+  <g id="book-page">
+    <path d="M60 80 Q80 75 100 80 Q120 75 140 80 L140 105 Q120 100 100 105 Q80 100 60 105 Z" 
+          fill="url(#pageGradient)" stroke="#DDD" stroke-width="1"/>
+    <path d="M100 80 Q110 82 120 80 Q130 78 140 80" 
+          fill="none" stroke="#DDD" stroke-width="1" opacity="0.5"/>
+    <!-- 书页上的文字线条 -->
+    <g stroke="#CCC" stroke-width="0.5" opacity="0.6">
+      <line x1="70" y1="88" x2="130" y2="88"/>
+      <line x1="75" y1="93" x2="125" y2="93"/>
+      <line x1="70" y1="98" x2="130" y2="98"/>
+    </g>
+  </g>
+  
+  <!-- 文字部分 -->
+  <g id="text">
+    <text x="100" y="116" text-anchor="middle" font-family="serif" font-size="12" font-weight="bold" fill="#2F1B14">海子诗歌</text>
+  </g>
+</svg>
