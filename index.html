@@ -4,6 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>海子诗歌每日一首</title>
+    <meta name="description" content="每日精选海子诗歌作品，体验诗人对光明、大地和文学的深沉热爱，感受'面朝大海，春暖花开'的诗意境界">
+    <meta name="keywords" content="海子,诗歌,文学,面朝大海春暖花开,麦田,诗人,现代诗">
+    <meta name="author" content="海子诗歌网站">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="海子诗歌每日一首">
+    <meta property="og:description" content="每日精选海子诗歌作品，感受诗人的文学境界">
+    <meta property="og:image" content="https://farawaydreams.github.io/haizi-daily-poetry/assets/logo/logo-social.png">
+    <meta property="og:url" content="https://farawaydreams.github.io/haizi-daily-poetry/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="海子诗歌网站">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="海子诗歌每日一首">
+    <meta name="twitter:description" content="每日精选海子诗歌作品，感受诗人的文学境界">
+    <meta name="twitter:image" content="https://farawaydreams.github.io/haizi-daily-poetry/assets/logo/logo-social.png">
+    
+    <!-- Performance optimizations -->
+    <link rel="preload" href="assets/logo/logo-main.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="assets/logo/logo-dark.svg" as="image" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Website",
+      "name": "海子诗歌每日一首",
+      "description": "每日精选海子诗歌作品，体验诗人对光明、大地和文学的深沉热爱",
+      "url": "https://farawaydreams.github.io/haizi-daily-poetry/",
+      "logo": "https://farawaydreams.github.io/haizi-daily-poetry/assets/logo/logo-main.svg",
+      "author": {
+        "@type": "Person",
+        "name": "海子"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "海子诗歌网站",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://farawaydreams.github.io/haizi-daily-poetry/assets/logo/logo-main.svg",
+          "width": 200,
+          "height": 120
+        }
+      }
+    }
+    </script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* 重置与基础设置 */
@@ -70,17 +120,46 @@
             height: auto;
             transition: transform 0.3s ease, opacity 0.3s ease;
             filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
+            /* 可访问性优化 */
+            border-radius: 4px;
+            outline: none;
         }
 
-        .main-logo:hover {
+        .main-logo:hover,
+        .main-logo:focus {
             transform: scale(1.05);
             opacity: 0.9;
+        }
+
+        /* 键盘导航焦点指示器 */
+        .main-logo:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 4px;
         }
 
         /* 深色主题logo切换 */
         @media (prefers-color-scheme: dark) {
             .main-logo {
                 content: url('assets/logo/logo-dark.svg');
+            }
+        }
+
+        /* 高对比度模式支持 */
+        @media (prefers-contrast: high) {
+            .main-logo {
+                filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3)) contrast(1.2);
+            }
+        }
+
+        /* 减少动画偏好支持 */
+        @media (prefers-reduced-motion: reduce) {
+            .main-logo {
+                transition: none;
+            }
+            
+            .main-logo:hover,
+            .main-logo:focus {
+                transform: none;
             }
         }
 
@@ -223,8 +302,18 @@
 </head>
 <body>
     <div class="container">
-        <header class="website-header">
-            <img src="assets/logo/logo-main.svg" alt="海子诗歌" class="main-logo" id="main-logo">
+        <header class="website-header" role="banner">
+            <img src="assets/logo/logo-main.svg" 
+                 alt="海子诗歌网站标志：太阳、麦穗与书页组合，象征诗人对光明、大地和文学的热爱" 
+                 class="main-logo" 
+                 id="main-logo"
+                 loading="eager"
+                 decoding="async"
+                 fetchpriority="high"
+                 aria-label="海子诗歌网站首页"
+                 role="img"
+                 tabindex="0"
+                 title="海子诗歌网站 - 每日一首诗">
         </header>
         <h1 id="poem-title"></h1>
         <div id="poem-content"></div>
