@@ -47,24 +47,105 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function generateDailyIndex(dateString) {
-    console.log(`[DEBUG] 生成基于日期的索引: ${dateString}`);
-    // 使用日期字符串作为随机种子
+    console.log(`[DEBUG] 生成无重复随机索引: ${dateString}`);
+    
+    // 获取已访问的诗歌列表
+    const visitedPoems = JSON.parse(localStorage.getItem('visitedPoems') || '[]');
+    const totalPoems = poems.length;
+    
+    console.log(`[DEBUG] 已访问诗歌数量: ${visitedPoems.length}/${totalPoems}`);
+    console.log(`[DEBUG] 已访问诗歌索引: [${visitedPoems.join(', ')}]`);
+    
+    // 如果所有诗歌都已访问，开始新的轮次
+    if (visitedPoems.length >= totalPoems) {
+        console.log(`[DEBUG] 🔄 所有诗歌已访问完毕，开始新的轮次`);
+        localStorage.setItem('visitedPoems', '[]');
+        localStorage.setItem('currentCycle', (parseInt(localStorage.getItem('currentCycle') || '0') + 1).toString());
+        visitedPoems.length = 0; // 清空数组
+    }
+    
+    // 获取未访问的诗歌索引列表
+    const unvisitedPoems = [];
+    for (let i = 0; i < totalPoems; i++) {
+        if (!visitedPoems.includes(i)) {
+            unvisitedPoems.push(i);
+        }
+    }
+    
+    console.log(`[DEBUG] 未访问诗歌数量: ${unvisitedPoems.length}`);
+    console.log(`[DEBUG] 未访问诗歌索引: [${unvisitedPoems.join(', ')}]`);
+    
+    // 使用日期作为随机种子，但只从未访问的诗歌中选择
     let seed = 0;
     for (let i = 0; i < dateString.length; i++) {
         seed += dateString.charCodeAt(i);
     }
     
-    // 使用确定性随机算法
+    // 使用确定性随机算法从未访问的诗歌中选择
     const pseudoRandom = (seed) => {
         const x = Math.sin(seed) * 10000;
         return x - Math.floor(x);
     };
     
     const randomValue = pseudoRandom(seed);
-    const poemIndex = Math.floor(randomValue * poems.length);
+    const unvisitedIndex = Math.floor(randomValue * unvisitedPoems.length);
+    const selectedPoemIndex = unvisitedPoems[unvisitedIndex];
     
-    console.log(`[DEBUG] 种子: ${seed}, 随机值: ${randomValue}, 最终索引: ${poemIndex}`);
-    return poemIndex;
+    // 将选中的诗歌添加到已访问列表
+    visitedPoems.push(selectedPoemIndex);
+    localStorage.setItem('visitedPoems', JSON.stringify(visitedPoems));
+    
+    const currentCycle = localStorage.getItem('currentCycle') || '1';
+    console.log(`[DEBUG] 📖 第${currentCycle}轮次 - 选中诗歌索引: ${selectedPoemIndex} (${poems[selectedPoemIndex].title})`);
+    console.log(`[DEBUG] 种子: ${seed}, 随机值: ${randomValue}, 未访问索引: ${unvisitedIndex}`);
+    console.log(`[DEBUG] 更新后已访问: ${visitedPoems.length}/${totalPoems}`);
+    
+    return selectedPoemIndex;
+}
+
+function updateProgressInfo() {
+    const visitedPoems = JSON.parse(localStorage.getItem('visitedPoems') || '[]');
+    const totalPoems = poems.length;
+    const currentCycle = localStorage.getItem('currentCycle') || '1';
+    
+    // 查找或创建进度信息显示区域
+    let progressInfo = document.getElementById('progress-info');
+    if (!progressInfo) {
+        progressInfo = document.createElement('div');
+        progressInfo.id = 'progress-info';
+        progressInfo.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 1000;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        `;
+        
+        // 鼠标悬停时显示更多信息
+        progressInfo.addEventListener('mouseenter', () => {
+            progressInfo.style.opacity = '1';
+        });
+        progressInfo.addEventListener('mouseleave', () => {
+            progressInfo.style.opacity = '0.8';
+        });
+        
+        document.body.appendChild(progressInfo);
+    }
+    
+    const progress = Math.round((visitedPoems.length / totalPoems) * 100);
+    progressInfo.innerHTML = `
+        <div style="margin-bottom: 5px;">📚 第 ${currentCycle} 轮次</div>
+        <div style="margin-bottom: 5px;">📖 进度: ${visitedPoems.length}/${totalPoems} (${progress}%)</div>
+        <div style="width: 100px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden;">
+            <div style="width: ${progress}%; height: 100%; background: #4CAF50; transition: width 0.3s ease;"></div>
+        </div>
+    `;
 }
 
 function displayPoem(index) {
@@ -92,6 +173,9 @@ function displayPoem(index) {
     
     // 设置滚动功能
     setupScrolling(contentElement);
+    
+    // 更新进度信息
+    updateProgressInfo();
     
     console.log('[DEBUG] 诗歌显示完成');
 }
