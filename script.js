@@ -103,51 +103,6 @@ function generateDailyIndex(dateString) {
     return selectedPoemIndex;
 }
 
-function updateProgressInfo() {
-    const visitedPoems = JSON.parse(localStorage.getItem('visitedPoems') || '[]');
-    const totalPoems = poems.length;
-    const currentCycle = localStorage.getItem('currentCycle') || '1';
-    
-    // 查找或创建进度信息显示区域
-    let progressInfo = document.getElementById('progress-info');
-    if (!progressInfo) {
-        progressInfo = document.createElement('div');
-        progressInfo.id = 'progress-info';
-        progressInfo.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 12px;
-            z-index: 1000;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        `;
-        
-        // 鼠标悬停时显示更多信息
-        progressInfo.addEventListener('mouseenter', () => {
-            progressInfo.style.opacity = '1';
-        });
-        progressInfo.addEventListener('mouseleave', () => {
-            progressInfo.style.opacity = '0.8';
-        });
-        
-        document.body.appendChild(progressInfo);
-    }
-    
-    const progress = Math.round((visitedPoems.length / totalPoems) * 100);
-    progressInfo.innerHTML = `
-        <div style="margin-bottom: 5px;">📚 第 ${currentCycle} 轮次</div>
-        <div style="margin-bottom: 5px;">📖 进度: ${visitedPoems.length}/${totalPoems} (${progress}%)</div>
-        <div style="width: 100px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden;">
-            <div style="width: ${progress}%; height: 100%; background: #4CAF50; transition: width 0.3s ease;"></div>
-        </div>
-    `;
-}
-
 function displayPoem(index) {
     console.log(`[DEBUG] 显示诗歌 #${index}`);
     // 验证索引是否有效
@@ -173,9 +128,6 @@ function displayPoem(index) {
     
     // 设置滚动功能
     setupScrolling(contentElement);
-    
-    // 更新进度信息
-    updateProgressInfo();
     
     console.log('[DEBUG] 诗歌显示完成');
 }
